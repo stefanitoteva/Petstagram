@@ -14,4 +14,8 @@ mongooseConnect()
 expressConfigurator(app);
 handlebarsConfigurator(app);
 
+app.get('/', (req, res) => {
+    res.render('home');
+});
+
 app.listen(PORT, () => console.log(`The server is running on port ${PORT}...`));
