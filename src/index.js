@@ -5,6 +5,7 @@ const expressConfigurator = require('./config/expressConfig');
 const handlebarsConfigurator = require('./config/handlebarsConfig');
 const mongooseConnect = require('./config/mongooseConfig');
 const routes = require('./routes');
+const { errorHandler } = require('./middlewares/errorHandlerMiddleware');
 
 const app = express();
 
@@ -16,5 +17,6 @@ expressConfigurator(app);
 handlebarsConfigurator(app);
 
 app.use(routes);
+app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`The server is running on port ${PORT}...`));
