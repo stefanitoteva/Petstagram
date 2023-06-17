@@ -1,6 +1,7 @@
 <main>
     <div class="container">
         <div class="col-9">
+            {{#each pets}}
             <!-- Start Pet Photos Post Section -->
             <div class="card">
                 <!-- Start User Details and Image Location -->
@@ -17,34 +18,34 @@
                             </div>
                         </a>
                         <h3>
-                            <!-- Link to User Profile Page -->
                             <p>
                                 <!-- show user username -->
-                                MayaB
+                                {{owner.username}}
                             </p>
                             <!-- photo's location -->
-                            <span>Bansko, Bulgaria</span>
+                            <span>{{location}}</span>
                         </h3>
                     </div>
                 </div>
 
                 <!-- Start Pet Photo -->
                 <div class="imgBx">
-                    <img src="/images/axolotl.jpeg" alt="post" class="cover">
+                    <img src="{{imageUrl}}" alt="post" class="cover">
                 </div>
                 <!-- Name of Pet -->
-                <h5 class="petName">Name: Sal</h5>
+                <h5 class="petName">Name: {{name}}</h5>
                 <!-- Age of Pet -->
-                <h5 class="petAge">Age: 4</h5>
+                <h5 class="petAge">Age: {{age}}</h5>
                 <!-- Link to Photo Details Page -->
                 <a href="#" id="see-details">
                     <h4 class="details">See details</h4>
                 </a>
             </div>
-
+            {{else}}
             <article class="not-available-photo">
                 <h1>No photo posts yet.</h1>
             </article>
+            {{/each}}
         </div>
 
     </div>
