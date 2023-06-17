@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Starts Head Section -->
 
 <head>
     <link rel="stylesheet" href="/css/styles.css">
@@ -8,19 +7,15 @@
     <title>Petstagram</title>
 </head>
 
-<!-- Starts Body Section -->
 
 <body>
-    <!-- Starts Header Section with Navigation Bar -->
     <header>
         <nav class="navbar">
             <div class="container">
                 <div class="logo">
-                    <!-- Link to Home Page -->
                     <a href="/">
                         <img width="50px" src="/images/free-30-instagram-stories-icons23_122570.png" alt="img1">
                     </a>
-                    <!-- Link to Home Page -->
                     <a class="home" href="/">
                         <i>Petstagram</i>
                     </a>
@@ -29,13 +24,30 @@
                 <div class="nav-links">
                     <ul class="nav-group">
                         <li class="nav-item">
-                            <!-- Link to Catalog Page -->
                             <a href="/pets/catalog">
                                 <i>Catalog</i>
                             </a>
                         </li>
 
                         <!--For Guest User-->
+
+                        {{#if isAuthenticated}}
+                        <li class="nav-item">
+                            <a href="/pets/add-photo">
+                                <i>Add Photo</i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/users/profile">
+                                <i>Profile</i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/users/logout">
+                                <i>Logout</i>
+                            </a>
+                        </li>
+                        {{else}}
                         <li class="nav-item">
                             <!-- Link to Login Page -->
                             <a href="/users/login">
@@ -48,28 +60,7 @@
                                 <i>Register</i>
                             </a>
                         </li>
-
-                        <!--For login users-->
-                        <li class="nav-item">
-                            <!-- Link to Add Photo Page -->
-                            <a href="/pets/add-photo">
-                                <i>Add Photo</i>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <!-- Link to Profile Page -->
-                            <a href="/users/profile">
-                                <i>Profile</i>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <!-- Link to Logout Page -->
-                            <a href="/users/logout">
-                                <i>Logout</i>
-                            </a>
-                        </li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>
