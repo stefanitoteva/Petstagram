@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const petManager = require('../managers/petManager');
+const { getErrorMessage } = require('../utils/errorHelpers');
 
 router.get('/catalog', async (req, res) => {
     const pets = await petManager.getAll().lean();
@@ -18,17 +19,35 @@ router.post('/add-photo', async (req, res) => {
         imageUrl,
     } = req.body;
 
-    await petManager.create({
-        name,
-        age,
-        description,
-        location,
-        imageUrl,
-        owner: req.user._id
-    })
+    try{
+        await petManager.create({
+            name,
+            age,
+            description,
+            location,
+            imageUrl,
+            owner: req.user._id
+        })
+    
+        res.redirect('/pets/catalog');
 
-    res.redirect('/pets/catalog');
+    } catch(err) {
+        res.render('pets/create', {error: getErrorMessage(err)});
+    }
+
 });
+
+router.get('/:petId/details', async (req, res) => {
+    const pet = await petManager.getOne(req.params.petId).lean();
+
+    if(!pet) {
+        res.redirect('/404');
+    }
+
+    isOwner = pet.owner._id?.toString() === req.user?._id;
+
+    res.render('pets/details', { pet, isOwner });
+})
 
 
 
