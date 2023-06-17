@@ -7,3 +7,5 @@ exports.create = (petData) => Pet.create(petData);
 exports.getOne = (petId) => Pet.findById(petId).populate('owner');
 
 exports.update = (petId, petData) => Pet.findByIdAndUpdate(petId, petData);
+
+exports.delete = (petId) => Pet.findByIdAndDelete(petId);

@@ -59,13 +59,33 @@ router.get('/:petId/edit', async (req, res) => {
     res.render('pets/edit', { pet })
 });
 
-router.post('/:petId/edit', async(req, res) => {
+router.post('/:petId/edit', async (req, res) => {
     const petData = req.body;
     const petId = req.params.petId;
 
-    await petManager.update(petId, petData);
+    try {
+        await petManager.update(petId, petData);
 
-    res.redirect(`/pets/${petId}/details`);
+        res.redirect(`/pets/${petId}/details`);
+    } catch (err) {
+
+        res.render('pets/edit', { error: getErrorMessage(err) });
+    }
+});
+
+router.get('/:petId/delete', async (req, res) => {
+    const petId = req.params.petId;
+    try {
+        await petManager.delete(petId);
+
+        res.redirect('/pets/catalog');
+
+    } catch (err) {
+        console.log(err.message);
+        res.redirect(`/pets/${petId}/details`);
+    }
+
+
 })
 
 
