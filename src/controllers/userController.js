@@ -3,7 +3,7 @@ const router = require('express').Router();
 const userManager = require('../managers/userManager');
 const { getErrorMessage } = require('../utils/errorHelpers');
 
-router.get('/register', (req, res) => res.render('register'));
+router.get('/register', (req, res) => res.render('users/register'));
 
 router.post('/register', async (req, res) => {
     const { username, email, password, repassword } = req.body;
@@ -14,14 +14,14 @@ router.post('/register', async (req, res) => {
         res.cookie('token', token);
         res.redirect('/');
     } catch (err) {
-        res.render('register', { error: getErrorMessage(err), username, email });
+        res.render('users/register', { error: getErrorMessage(err), username, email });
     }
 
 
 
 });
 
-router.get('/login', (req, res) => res.render('login'));
+router.get('/login', (req, res) => res.render('users/login'));
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
 
         res.redirect('/')
     } catch (err) {
-        res.render('login', { error: getErrorMessage(err) })
+        res.render('users/login', { error: getErrorMessage(err) })
     }
 
 
@@ -44,5 +44,8 @@ router.get('/logout', (req, res) => {
     res.clearCookie('token');
     res.redirect('/');
 });
+
+
+router.get('/profile', (req, res) => res.render('users/profile'));
 
 module.exports = router;
