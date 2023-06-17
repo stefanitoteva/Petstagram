@@ -19,7 +19,7 @@ router.post('/add-photo', async (req, res) => {
         imageUrl,
     } = req.body;
 
-    try{
+    try {
         await petManager.create({
             name,
             age,
@@ -28,11 +28,11 @@ router.post('/add-photo', async (req, res) => {
             imageUrl,
             owner: req.user._id
         })
-    
+
         res.redirect('/pets/catalog');
 
-    } catch(err) {
-        res.render('pets/create', {error: getErrorMessage(err)});
+    } catch (err) {
+        res.render('pets/create', { error: getErrorMessage(err) });
     }
 
 });
@@ -40,13 +40,32 @@ router.post('/add-photo', async (req, res) => {
 router.get('/:petId/details', async (req, res) => {
     const pet = await petManager.getOne(req.params.petId).lean();
 
-    if(!pet) {
+    if (!pet) {
         res.redirect('/404');
     }
 
     isOwner = pet.owner._id?.toString() === req.user?._id;
 
     res.render('pets/details', { pet, isOwner });
+});
+
+router.get('/:petId/edit', async (req, res) => {
+    const pet = await petManager.getOne(req.params.petId).lean();
+
+    if (!pet) {
+        res.redirect('/404');
+    }
+
+    res.render('pets/edit', { pet })
+});
+
+router.post('/:petId/edit', async(req, res) => {
+    const petData = req.body;
+    const petId = req.params.petId;
+
+    await petManager.update(petId, petData);
+
+    res.redirect(`/pets/${petId}/details`);
 })
 
 
