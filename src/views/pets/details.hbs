@@ -66,6 +66,7 @@
                         <p class="petName">Name: {{pet.name}}</p>
                         <p class="petAge">Age: {{pet.age}}</p>
                     </div>
+                    {{#if user}}
                     <div class="comments">
                         <div class="comments-top">
                             <div class="userDetails">
@@ -86,6 +87,7 @@
                         </div>
                     </div>
                 </div>
+                {{#unless isOwner}}
                 <div class="addComments">
                     <!-- Start Add Comments Form -->
                     <form method="#" action="#">
@@ -94,6 +96,8 @@
                         <!-- Post Comments Button -->
                         <button type="submit">Post</button>
                     </form>
+                {{/unless}}
+                {{/if}}
                 </div>
             </div>
         </div>

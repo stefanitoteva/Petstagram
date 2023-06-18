@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const petManager = require('../managers/petManager');
 const { getErrorMessage } = require('../utils/errorHelpers');
+const { isAuth } = require('../middlewares/authMiddleware');
 
 router.get('/catalog', async (req, res) => {
     const pets = await petManager.getAll().lean();
@@ -39,6 +40,7 @@ router.post('/add-photo', async (req, res) => {
 
 router.get('/:petId/details', async (req, res) => {
     const pet = await petManager.getOne(req.params.petId).lean();
+    const user = req.user
 
     if (!pet) {
         res.redirect('/404');
@@ -46,7 +48,7 @@ router.get('/:petId/details', async (req, res) => {
 
     isOwner = pet.owner._id?.toString() === req.user?._id;
 
-    res.render('pets/details', { pet, isOwner });
+    res.render('pets/details', { pet, isOwner, user });
 });
 
 router.get('/:petId/edit', async (req, res) => {
