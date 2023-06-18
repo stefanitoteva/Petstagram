@@ -9,7 +9,7 @@ router.get('/catalog', async (req, res) => {
 
 });
 
-router.get('/add-photo', (req, res) => res.render('pets/create'));
+router.get('/add-photo', isAuth, (req, res) => res.render('pets/create'));
 
 router.post('/add-photo', async (req, res) => {
     const {
@@ -51,7 +51,7 @@ router.get('/:petId/details', async (req, res) => {
     res.render('pets/details', { pet, isOwner, user });
 });
 
-router.get('/:petId/edit', async (req, res) => {
+router.get('/:petId/edit', isAuth, async (req, res) => {
     const pet = await petManager.getOne(req.params.petId).lean();
 
     if (!pet) {
@@ -61,7 +61,7 @@ router.get('/:petId/edit', async (req, res) => {
     res.render('pets/edit', { pet })
 });
 
-router.post('/:petId/edit', async (req, res) => {
+router.post('/:petId/edit', isAuth, async (req, res) => {
     const petData = req.body;
     const petId = req.params.petId;
 
@@ -71,12 +71,13 @@ router.post('/:petId/edit', async (req, res) => {
         res.redirect(`/pets/${petId}/details`);
     } catch (err) {
 
-        res.render('pets/edit', { error: getErrorMessage(err) });
+        res.render('pets/edit', { error: 'Unable to update photo', ...petData });
     }
 });
 
-router.get('/:petId/delete', async (req, res) => {
+router.get('/:petId/delete', isAuth, async (req, res) => {
     const petId = req.params.petId;
+    
     try {
         await petManager.delete(petId);
 
@@ -84,11 +85,11 @@ router.get('/:petId/delete', async (req, res) => {
 
     } catch (err) {
         console.log(err.message);
-        res.redirect(`/pets/${petId}/details`);
+        res.render(`pets/details`, {error: 'Unsuccessful photo deletion!'});
     }
 
 
-})
+});
 
 
 
